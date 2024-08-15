@@ -11,7 +11,7 @@ np.random.seed(42)
 
 def sample(N: int, d_u: int, d_x: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     a = np.random.choice([1, 2], p=[0.5, 0.5], size=N)
-    
+
     mean_u = np.zeros(d_u)
     cov_u = np.eye(d_u)
     u = np.random.multivariate_normal(mean_u, cov_u, N)
@@ -30,7 +30,15 @@ def sample(N: int, d_u: int, d_x: int) -> Tuple[np.ndarray, np.ndarray, np.ndarr
         x[i] = data
     
     w_x = np.random.randn(1, d_x)
+    print("w_x = \n{}".format(w_x))
     b_x = np.random.randn()
     y = (np.dot(w_x, x.T) + b_x).T
     
-    return a, x, y, w_u, cov_x, w_a, b
+    c_a = 3 - a
+    c_mean_x = (np.dot(w_u, u.T) + np.dot(w_a, c_a.reshape(1, -1)) + b[:, np.newaxis]).T
+    c_x = np.zeros((N, d_x))
+    for i in range(N):
+        c_data = np.random.multivariate_normal(c_mean_x[i], cov_x, 1)
+        c_x[i] = c_data
+    
+    return a, x, y, w_u, cov_x, w_a, b, c_a, c_x
