@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=1 python main_maxent.py --scheduler=one --alpha=1.0 --n_seed=10 --model_name MaxEnt-ARL
