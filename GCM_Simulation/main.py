@@ -24,6 +24,7 @@ def main():
     cf_mses, uf_mses, if_mses = [], [], []
     cf_accs, uf_accs, if_accs = [], [], []
     cf_cofs, uf_cofs, if_cofs = [], [], []
+    cf_tes, uf_tes, if_tes = [], [], []
     for seed in (42, 47):
         X = np.concatenate([a.reshape(-1, 1), x, mu], axis=1)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed)

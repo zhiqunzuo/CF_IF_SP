@@ -41,37 +41,37 @@ def main():
     mses, tes, s_accs = result_report(model_name="FarconVAE-t")
     print("FarconVAE-t")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
     
     mses, tes, s_accs = result_report(model_name="FarconVAE-G")
     print("FarconVAE-G")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
     
     mses, tes, s_accs = result_report(model_name="MaxEnt-ARL")
     print("MaxEnt-ARL")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
     
     mses, tes, s_accs = result_report(model_name="CI")
     print("CI")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
     
     mses, tes, s_accs = result_report(model_name="UF")
     print("UF")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
     
     mses, tes, s_accs = result_report(model_name="ours")
     print("ours")
     print("mse = {} + {}, te = {} + {}, s_acc = {} + {}".format(
-        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(tes)
+        np.mean(mses), np.std(mses), np.mean(tes), np.std(tes), np.mean(s_accs), np.std(s_accs)
     ))
 
 if __name__ == "__main__":
