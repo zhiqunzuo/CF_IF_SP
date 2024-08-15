@@ -36,16 +36,16 @@ def main(args, devices):
 
 def process_dataset(path):
     data = pd.read_csv(path)
-    data = pd.get_dummies(data, columns=["race"], prefix="", prefix_sep="")
+    #data = pd.get_dummies(data, columns=["race"], prefix="", prefix_sep="")
     race_names = ["Amerindian", "Asian", "Black", "Hispanic", "Mexican", "Other",
                   "Puertorican", "White"]
-    data[race_names] = data[race_names].astype(int)
+    #data[race_names] = data[race_names].astype(int)
     
     dataset = {}
     dataset["s"] = np.array(data["sex"]) - 1
     dataset["cs"] = 1 - dataset["s"]
-    dataset["X"] = np.concatenate([np.array(data["LSAT"]).reshape(-1, 1),
-                                   np.array(data["UGPA"]).reshape(-1, 1),
+    dataset["X"] = np.concatenate([np.array(data["LSAT_I"]).reshape(-1, 1),
+                                   np.array(data["UGPA_I"]).reshape(-1, 1),
                                    np.array(data[race_names])], axis=1)
     dataset["cX"] = np.concatenate([np.array(data["c_LSAT"]).reshape(-1, 1),
                                     np.array(data["c_UGPA"]).reshape(-1, 1),
@@ -76,9 +76,9 @@ def encode(dataset, model, xy_clf):
     return np.array(zx.cpu()), np.array(czx.cpu())
 
 def save_representation(args, model, xy_clf):
-    train_set = process_dataset(os.path.join("data", "generated_train_{}_counter.csv".format(args.seed)))
-    valid_set = process_dataset(os.path.join("data", "generated_valid_{}_counter.csv".format(args.seed)))
-    test_set = process_dataset(os.path.join("data", "generated_test_{}_counter.csv".format(args.seed)))
+    train_set = process_dataset(os.path.join("data", "law_train_{}_counter.csv".format(args.seed)))
+    valid_set = process_dataset(os.path.join("data", "law_valid_{}_counter.csv".format(args.seed)))
+    test_set = process_dataset(os.path.join("data", "law_test_{}_counter.csv".format(args.seed)))
     
     train_zx, train_czx = encode(train_set, model, xy_clf)
     valid_zx, valid_czx = encode(valid_set, model, xy_clf)
@@ -153,19 +153,19 @@ if __name__ == "__main__":
     args.dec_seq = "fa"
     args.pred_act = "leaky"
     args.pred_seq = "fba" if args.kernel == "t" else "fad"
-    args.data_path = "./data/generated"
+    args.data_path = "./data/law"
     args.clf_path = "no"
     
     args.patience = int(args.epochs * 0.10)
     
     for seed in range(42, 47):
         args.seed = seed
-        args.model_path = "./model_generated_{}".format(seed)
-        args.result_path = "./result_generated_{}".format(seed)
+        args.model_path = "./model_law_{}".format(seed)
+        args.result_path = "./result_law_{}".format(seed)
         
-        args.train_file_name = "generated_train_{}.csv".format(seed)
-        args.valid_file_name = "generated_valid_{}.csv".format(seed)
-        args.test_file_name = "generated_test_{}.csv".format(seed)
+        args.train_file_name = "law_train_{}.csv".format(seed)
+        args.valid_file_name = "law_valid_{}.csv".format(seed)
+        args.test_file_name = "law_test_{}.csv".format(seed)
         
         if not os.path.isdir(args.model_path):
             os.mkdir(args.model_path)
