@@ -33,7 +33,6 @@ def main(args, device):
     test_loader = torch.utils.data.DataLoader(data.testset, batch_size=args.batch_size_te, shuffle=False, num_workers=0)
 
     model = FarconVAE(args, device)
-    print(model)
     model.to(device)
     
     # train model
@@ -194,6 +193,7 @@ if __name__ == "__main__":
         #args.batch_size_te = 1096
         args.batch_size_te = 380
         args.epochs = 2000
+        #args.epochs = 1
         args.fade_in = 1  # annealing flag for DCD, SR loss
         args.beta_anneal = 1  # annealing flag for KLD loss
         args.clf_act = 'prelu'

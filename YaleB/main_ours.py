@@ -35,7 +35,7 @@ def main(args, device):
     # train model
     model = train_cf_yaleb(args, model, train_loader, test_loader, device, model_file_name)
 
-    return model, data
+    return model, data.trainset, data.testset
 
 def evaluation(args, device, eval_model, model=None, is_e2e=True, trainset=None, testset=None):
     seed_everything(args.seed)
@@ -89,11 +89,12 @@ def e2e(args, device):
         if args.n_seed != 1:
             args.seed = it_seed
 
-        model, data = main(args, device)
+        model, train_data, test_data = main(args, device)
         
         eval_model = args.eval_model if args.eval_model != 'disc' else args.disc
 
-        y_acc, s_acc, cf = evaluation(args, device, eval_model, model, is_e2e=True, trainset=data, testset=data)
+        y_acc, s_acc, cf = evaluation(args, device, eval_model, model, is_e2e=True, 
+                                      trainset=train_data, testset=test_data)
         
         y_accs.append(y_acc); s_accs.append(s_acc), cfs.append(cf)
     if args.n_seed != 1:

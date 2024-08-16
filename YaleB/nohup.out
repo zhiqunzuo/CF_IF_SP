@@ -23221,3 +23221,4 @@ yAcc: 0.5079 | sAcc: 0.9053 | cf: 7.0199
 -----------------------------------------------------------
 Time for Train & Eval per 1 program: 00:07:19
 ---------------------------------------------------------
+python: can't open file 'cf_generation.py': [Errno 2] No such file or directory

@@ -144,17 +144,18 @@ def maxent_encode_yaleb(args, model, device, is_train=True, data=0):
     return np.array(z.cpu()), s, y
 
 def cf_encode_yaleb(args, model, device, data=0):
-    s = data.test_sensitive_label
+    s = data.sensitive_tensor
     s = F.one_hot(s, num_classes=5)
-    X = data.test_data
-    y = data.test_label
+    X = data.data_tensor
+    y = data.target_tensor
     
-    X_tensor, s_tensor, y_tensor = torch.FloatTensor(np.array(X)), torch.FloatTensor(np.array(s)), torch.FloatTensor(np.array(y))
-    X_tensor, s_tensor, y_tensor = X_tensor.to(device), s_tensor.to(device), y_tensor.to(device)
+    #X_tensor, s_tensor, y_tensor = torch.FloatTensor(np.array(X)), torch.FloatTensor(np.array(s)), torch.FloatTensor(np.array(y))
+    #X_tensor, s_tensor, y_tensor = X_tensor.to(device), s_tensor.to(device), y_tensor.to(device)
+    X_tensor, s_tensor, y_tensor = X, s, y
     model.eval()
     with torch.no_grad():
         z, _ = model(X_tensor)
-    s = pd.Series(np.argmax(s, axis=1), name='sensitive')
+    s = pd.Series(np.argmax(s.cpu().numpy(), axis=1), name='sensitive')
 
     # array, series, tensor
     return np.array(z.cpu()), s, y

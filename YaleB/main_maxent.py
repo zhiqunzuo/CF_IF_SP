@@ -195,6 +195,7 @@ if __name__ == "__main__":
         args.batch_size = 190
         args.batch_size_te = 380
         args.epochs = 2000
+        #args.epochs = 1
         args.fade_in = 1  # annealing flag for DCD, SR loss
         args.beta_anneal = 1  # annealing flag for KLD loss
         args.clf_act = 'prelu'

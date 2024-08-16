@@ -22,18 +22,18 @@ def z_evaluator(args, model, xy_clf, device, eval_model, model_name, trainset=No
             representation_te, _, s_te, y_te = odfr_encode(args, testset, model, device)
         else:
             representation_tr, _, s_tr, y_tr = odfr_encode_yaleb(args, model, device, is_train=True, data=trainset)
-            representation_te, _, s_te, y_te = odfr_encode_yaleb(args, model, device, is_train=False, data=trainset)
+            representation_te, _, s_te, y_te = odfr_encode_yaleb(args, model, device, is_train=False, data=testset)
     elif model_name == 'maxent':  # CI, MaxEnt
         if args.data_name != 'yaleb':
             representation_tr, s_tr, y_tr = maxent_encode(args, trainset, model, device)
             representation_te, s_te, y_te = maxent_encode(args, testset, model, device)
         else:
             representation_tr, s_tr, y_tr = maxent_encode_yaleb(args, model, device, is_train=True, data=trainset)
-            representation_te, s_te, y_te = maxent_encode_yaleb(args, model, device, is_train=False, data=trainset)
+            representation_te, s_te, y_te = maxent_encode_yaleb(args, model, device, is_train=False, data=testset)
     elif model_name == "cf":
         if args.data_name == "yaleb":
             representation_tr, s_tr, y_tr = cf_encode_yaleb(args, model, device, data=trainset)
-            representation_te, s_te, y_te = cf_encode_yaleb(args, model, device, data=trainset)
+            representation_te, s_te, y_te = cf_encode_yaleb(args, model, device, data=testset)
 
     # ----------------------------------- 'tabular'
     if args.data_name != 'yaleb': 
@@ -55,7 +55,7 @@ def z_evaluator(args, model, xy_clf, device, eval_model, model_name, trainset=No
         clf_s = Predictor(args.latent_dim, args.s_dim, args.hidden_units, args)
         
         clf_y = train_yaleb_evaluator(args, torch.tensor(representation_tr), torch.tensor(y_tr), torch.tensor(representation_te), torch.tensor(y_te), clf_y, device, flag='y', eval_model=eval_model)
-        y_acc = ((torch.argmax(clf_y(torch.tensor(representation_te).to(device)), dim=1).detach().cpu() == torch.tensor(y_te)).sum() / y_te.shape[0]).item()
+        y_acc = ((torch.argmax(clf_y(torch.tensor(representation_te).to(device)), dim=1).detach().cpu() == torch.tensor(y_te).cpu()).sum() / y_te.shape[0]).item()
         output = torch.argmax(clf_y(torch.tensor(representation_te).to(device)), dim=1).detach().cpu()
         cf = torch.mean(torch.std(output.reshape(-1, 5).float(), dim=1))
         
